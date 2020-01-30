@@ -41,7 +41,8 @@ def get_required_kw_args(fn):
     args = []
     params = inspect.signature(fn).parameters
     for name, param in params.items():
-        if param.kind == inspect.Parameter.KEYWORD_ONLY and param.default == imspect.Parameter.empty:
+        if (param.kind == inspect.Parameter.KEYWORD_ONLY and 
+           param.default == inspect.Parameter.empty):
             args.append(name)
     return tuple(args)
 
@@ -56,12 +57,14 @@ def get_named_kw_args(fn):
 def has_named_kw_args(fn):
     params = inspect.signature(fn).parameters
     for name, param in params.items():
+    #for _, param in params():
         if param.kind == inspect.Parameter.KEYWORD_ONLY:
             return True
 
 def has_var_kw_arg(fn):
     params = inspect.signature(fn).parameters
-    for name, param in params.items():
+    #for name, param in params.items():
+    for _, param in params.items():
         if param.kind == inspect.Parameter.VAR_KEYWORD:
             return True
 
@@ -73,12 +76,15 @@ def has_request_arg(fn):
         if name == 'request':
             found = True
             continue
-        if found and (param.kind != inspect.Parameter.VAR_POSITIONAL and param.kind != inspect.Parameter.KEYWORD_ONLY and param.kind != inspect.Parameter.VAR_KEYWORD):
-            raise ValueError('request Parameter must be the last named parameter in function: %s%s' % (fn.__name__, str(sig)))
+        if found and (param.kind != inspect.Parameter.VAR_POSITIONAL and 
+                      param.kind != inspect.Parameter.KEYWORD_ONLY and 
+                      param.kind != inspect.Parameter.VAR_KEYWORD):
+            raise ValueError('request Parameter must be \
+                             the last named parameter in \
+                             function: %s%s' % (fn.__name__, str(sig)))
     return found
 
 class RequestHandler(object):
-
     def __init__(self, app, fn):
         self._app = app
         self._func = fn
@@ -90,7 +96,8 @@ class RequestHandler(object):
 
     async def __call__(self, request):
         kw = None
-        if self._has_var_kw_arg or self._has_named_kw_args or self._required_kw_args:
+        if (self._has_var_kw_arg or self._has_named_kw_args or 
+           self._required_kw_args):
             if request.method == 'POST':
                 if not request.content_type:
                     return web.HTTPBadRequest('Missing Content-Type.')
@@ -100,11 +107,13 @@ class RequestHandler(object):
                     if not isinstance(params, dict):
                         return web.HTTPBadRequest('JSON body muest be object.')
                     kw = params
-                elif ct.startswith('application/x-www-form-urlencoded') or ct.startswith('multipart/form-data'):
+                elif (ct.startswith('application/x-www-form-urlencoded') or 
+                     ct.startswith('multipart/form-data')):
                     params = await request.post()
                     kw = dict(**params)
                 else:
-                    return web.HTTPBadRequest('Unsupported Content-Type: %s' % request.content_type)
+                    return web.HTTPBadRequest('Unsupported Content-Type: %s' \
+                                              % request.content_type)
             if request.method == 'GET':
                 qs = request.query_string
                 if qs:
@@ -124,7 +133,8 @@ class RequestHandler(object):
             #check named arg
             for k, v in request.match_info.items():
                 if k in kw:
-                    logging.warning('Duplicate arg name in named arg and kw args: %s' % k)
+                    logging.warning('Duplicate arg name in named arg and \
+                                    kw args: %s' % k)
                 kw[k] = v
         if self._has_request_arg:
             kw['request'] = request
@@ -150,35 +160,27 @@ def add_route(app, fn):
     path = getattr(fn, '__route__', None)
     if path is None or method is None:
         raise ValueError('@get or @post not defined in %s.' % str(fn))
-    if not asyncio.iscoroutinefunction(fn) and not inspect.isgeneratorfunction(fn):
+    if (not asyncio.iscoroutinefunction(fn) and 
+       not inspect.isgeneratorfunction(fn)):
         fn = asyncio.coroutine(fn)
-    logging.info('add route %s %s => %s(%s)' % (method, path, fn.__name__, ', '.join(inspect.signature(fn).parameters.keys())))
-    logging.info(fn)
+    logging.info('add route %s %s => %s(%s)' % (method, path, fn.__name__, 
+                 ', '.join(inspect.signature(fn).parameters.keys())))
     app.router.add_route(method, path, RequestHandler(app, fn))
 
 def add_routes(app, module_name):
     n = module_name.rfind('.')
-    logging.info(n)
     if n == (-1):
-        logging.info('add_routes n == -1')
-        logging.info(module_name)
         mod = __import__(module_name, globals(), locals())
-        logging.info(mod)
     else:
-        logging.info('add_routes n != -1')
         name = module_name[n+1:]
-        logging.info(name)
-        mod = getattr(__import__(module_name[:n], globals(), locals(), [name]), name)
-        logging.info(mod)
+        mod = getattr(__import__(module_name[:n], 
+                      globals(), locals(), [name]), name)
     for attr in dir(mod):
         if attr.startswith('_'):
             continue
         fn = getattr(mod, attr)
-        logging.info(fn)
         if callable(fn):
             method = getattr(fn, '__method__', None)
             path = getattr(fn, '__route__', None)
             if method and path:
-                logging.info(method)
-                logging.info(path)
                 add_route(app, fn)
