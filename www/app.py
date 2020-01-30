@@ -18,6 +18,8 @@ from jinja2 import Environment, FileSystemLoader
 import orm
 from coroweb import add_routes, add_static
 
+from config import configs
+
 def index(request):
     return web.Response(body=b'<h1>Personal Microblog</h1>')
 
@@ -73,7 +75,7 @@ async def response_factory(app, handler):
             resp.content_type = 'application/octet-stream'
             return resp
         if isinstance(r, str):
-            if r.startswith('redirect'):
+            if r.startswith('redirect:'):
                 return web.HTTPFound(r[9:])
             resp = web.Response(body=r.encode('utf-8'))
             resp.content_type = 'text/html;charset=utf-8'
@@ -86,12 +88,12 @@ async def response_factory(app, handler):
                 return resp
             else:
                 resp = web.Response(body=app['__templating__'].get_template(template).render(**r).encode('utf-8'))
-                resp.content_type = 'texthtml;charset=utf-8'
+                resp.content_type = 'text/html;charset=utf-8'
                 return resp
             if isinstance(r, int) and r >= 100 and r < 600:
                 return web.Response(r)
             if isinstance(r, tuple) and len(r) == 2:
-                t,m = r
+                t, m = r
                 if isinstance(t, int) and t >= 100 and t < 600:
                     return web.Reponse(t, str(m))
             #default
@@ -114,7 +116,7 @@ def datetime_filter(t):
     return u'%s年%s月%s日' % (dt.year, dt.month, dt.day)
 
 async def init(loop):
-    await orm.create_pool(loop=loop, host='127.0.0.1', port=3306, user='www_data', password='www_data', db='awesome')
+    await orm.create_pool(loop=loop, **configs['db'])
     app = web.Application(middlewares=[
         logger_factory,
         response_factory
