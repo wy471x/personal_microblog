@@ -61,6 +61,7 @@ async def data_factory(app, handler):
         return (await handler(request))
     return parse_data
 
+#ERROR 1 : indent error
 async def response_factory(app, handler):
     async def response(request):
         logging.info('Response handler...')
