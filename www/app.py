@@ -39,7 +39,6 @@ def init_jinja2(app, **kw):
     if filters is not None:
         for name, f in filters.items():
             env.filters[name] = f
-    logging.info(env)
     app['__templating__'] = env
 
 async def logger_factory(app, handler):
@@ -90,17 +89,17 @@ async def response_factory(app, handler):
                             get_template(template).render(**r).encode('utf-8'))
                 resp.content_type = 'text/html;charset=utf-8'
                 return resp
-            if isinstance(r, int) and r >= 100 and r < 600:
-                return web.Response(r)
-            if isinstance(r, tuple) and len(r) == 2:
-                t, m = r
-                if isinstance(t, int) and t >= 100 and t < 600:
-                    return web.Response(t, str(m))
-            #default
-            resp = web.Response(body=str(r).encode('utf-8'))
-            resp.content_type = 'text/plain;charset=utf-8'
-            return resp
-        return response
+        if isinstance(r, int) and r >= 100 and r < 600:
+            return web.Response(r)
+        if isinstance(r, tuple) and len(r) == 2:
+            t, m = r
+            if isinstance(t, int) and t >= 100 and t < 600:
+                return web.Response(t, str(m))
+        #default
+        resp = web.Response(body=str(r).encode('utf-8'))
+        resp.content_type = 'text/plain;charset=utf-8'
+        return resp
+    return response
 
 def datetime_filter(t):
     delta = int(time.time() - t)
