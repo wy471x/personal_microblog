@@ -57,6 +57,9 @@ async def test(loop):
     #u = await User.findAll(where='name like ?', args=['%a%'], orderBy='name asc', limit=(0, 10))
     #for item in u:
     #    print(item)
+    u = await User.findAll()
+    for item in u:
+        print(item)
     #Blogs
     #b = await Blog.findAll(where='name like ?', args=['%a%'], orderBy='name asc', limit=(0,10))
     #for item in b:

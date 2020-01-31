@@ -11,6 +11,7 @@ from aiohttp import web
 
 from apis import APIError
 
+#decorator @get()
 def get(path):
     '''
     Define decorator @get('/path')
@@ -24,6 +25,7 @@ def get(path):
         return wrapper
     return decorator
 
+#decorator @post()
 def post(path):
     '''
     Define decorator @post('/path')
@@ -56,8 +58,8 @@ def get_named_kw_args(fn):
 
 def has_named_kw_args(fn):
     params = inspect.signature(fn).parameters
-    for name, param in params.items():
-    #for _, param in params():
+    #for name, param in params.items():
+    for _, param in params.items():
         if param.kind == inspect.Parameter.KEYWORD_ONLY:
             return True
 
@@ -146,6 +148,7 @@ class RequestHandler(object):
         logging.info('call with args: %s' % str(kw))
         try:
             r = await self._func(**kw)
+            logging.info(r)
             return r
         except APIError as e:
             return dict(error=e.error, data=e.data, message=e.message)
