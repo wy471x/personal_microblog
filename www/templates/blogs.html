@@ -1,28 +1,65 @@
+{% extends '__base__.html' %}
+
 {% block title %}日志{% endblock %}
 
+{% block beforehead %}
+<script>
+</script>
+{% endblock %}
+
 {% block content %}
-    <div class="uk-width-medium-3-4">
+    <!-- screen size greater than medium  -->
+    <div class="uk-grid uk-visible@m">
+    <div class="uk-width-3-4">
         {% for blog in blogs %}
             <article class="uk-article">
                 <h2><a href="/blog/{{ blog.id }}">{{ blog.name }}</a></h2>
-                <p class="uk-article-meta">发表于{{ blog.created_at }}</p>
+                <p class="uk-article-meta">发表于{{ blog.created_at|datetime }}</p>
                 <p>{{ blog.summary }}</p>
                 <p><a href="/blog/{{ blog.id }}">继续阅读<i class="uk-icon-angle-double-right"></i></a></p>
             </article>
             <hr class="uk-article-divider">
         {% endfor %}
     </div>
-
-    <div class="uk-width-medium-4">
+    
+    <div class="uk-width-1-4 uk-visible@m">
+        <!--
+        <h4>站内搜索</h4>
+        <form method=GET action="https://www.google.com/search">
+            <div class="uk-inline">
+                <a class="uk-icon uk-form-flip" href="#" uk-icon="search"><input class="uk-input" type=text name=q placeholder="站内搜索" size=31 maxlength=255 value="">
+                </a>
+            </div>
+            <font size=-1>
+                <input type=hidden name=domains value=""><br>
+                <input type=hidden name=sitesearch value=""></br>
+            </font>
+            <button type=submit name=btnSearch class="uk-button uk-button-default" >Search</button>
+        </form>
+        -->
+        <div class="uk-width-medium-4">
         <div class="uk-panel uk-panel-header">
-            <h3 class="uk-panel-title">友情链接</h3>
+            <h4 class="uk-list uk-list-line">友情链接</h4>
             <ul class="uk-list uk-list-line">
-                <li><i class="uk-icon-thumbs-o-up"></i><a target="_blank" href="#">编程</a></li>
-                <li><i class="uk-icon-thumbs-o-up"></i><a target="_blank" href="#">读书</a></li>
-                <li><i class="uk-icon-thumbs-o-up"></i><a target="_blank" href="#">Python教程</a></li>
-                <li><i class="uk-icon-thumbs-o-up"></i><a target="_blank" href="#">Git教程</a></li>
+                <li><i uk-icon="link"></i><a target="_blank" href="#">编程</a></li>
+                <li><i uk-icon="link"></i><a target="_blank" href="#">读书</a></li>
+                <li><i uk-icon="link"></i><a target="_blank" href="#">Python教程</a></li>
+                <li><i uk-icon="link"></i><a target="_blank" href="#">Git教程</a></li>
             </ul>
         </div>
-    </div>
+        </div>
+   </div>
 
+    <!-- small size screen -->
+    <div class="uk-hidden@m">
+    {% for blog in blogs %}
+        <article class="uk-article">
+            <h4><a href="/blog/{{ blog.id  }}">{{ blog.name }}</a></h4>
+            <p class="uk-article-meta">发表于{{ blog.created_at|datetime }}</p>
+            <p>{{ blog.summary }}</p>
+            <p><a href="/blog/{{ blog.id }}">继续阅读<i class="uk-icon-angle-double-right"></i></a></p>
+        </article>
+        <hr>
+    {% endfor %}
+    </div>
 {% endblock %}

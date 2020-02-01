@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <!--process paging navigation bar-->
+<!--
 {% macro pagination(page) %}
     <ul class="uk-pagination uk-flex-center uk-margin-medium-top uk-margin-large-bottom">
         {% if page.has_previous %}
@@ -16,6 +17,8 @@
         {% endif %}
     </ul>
 {% endmacro %}
+-->
+
 <!-- navigation page -->
 <html>
     <head>
@@ -29,6 +32,7 @@
         <!-- jinja2 title -->
         <title>{% block title %} ? {% endblock %} | AwesomeDunkBlog</title>
         <link rel="stylesheet" href="/static/css/uikit.min.css">
+        <link rel="stylesheet" href="/static/css/uikit-rtl.min.css">
         <link rel="stylesheet" href="/static/css/awesome.css" />
         <script src="/static/js/jquery.min.js"></script>
         <script src="/static/js/sha1.min.js"></script>
@@ -41,20 +45,21 @@
         {% block beforehead %}<!-- beforehead head -->{% endblock %}
     </head>
     
+    <!-- body for navigation page -->
     <body>
         <div class="uk-margin uk-visible@m" style="background-color:rgba(100, 150, 185, 0);">
         <div class="uk-container uk-container-medium">
         <!-- UI -->
-        <nav class="uk-navbar-container" uk-navbar style="background-color:rgba(255, 255, 255, 0);">
+        <nav class="uk-navbar-container uk-navbar" style="background-color:rgba(255, 255, 255, 0);">
             <div class="uk-navbar-left uk-margin-medium-top uk-margin-medium-bottom">
                 <a class="uk-navbar-item uk-logo uk-margin-left" href="/">
-                    <span class="uk-icon uk-margin-small-right" uk-icon="pagekit" ration="2"></span>
+                    <span class="uk-icon uk-margin-small-right" uk-icon="pagekit" ratio="2"></span>
                      Dunk.Wan
                 </a>
                 <ul class="uk-navbar-nav">
-                    <li><a href="/"><i class="uk-icon-home"></i>Article | 日志</a></li>
-                    <li><a href="#"><i class="uk-icon-book"></i>Tutorial | 教程</a></li>
-                    <li><a href="https://github.com/wy471x/personal_microblog"><i class="uk-icon-code"></i>Resource | 源码</a></li>
+                    <li><a href="/"> <b>Article | 日志</b></a></li>
+                    <li><a href="#"> <b>Tutorial | 教程</b></a></li>
+                    <li><a href="https://github.com/wy471x/personal_microblog"> <b>Resource | 源码</b></a></li>
                 </ul>
             </div>
             <div class="uk-navbar-right uk-margin-medium-top uk-margin-medium-bottom">
@@ -64,14 +69,14 @@
                         <a href="#0">{{ __user__.name }}</a>
                         <div class="uk-navbar-dropdown">
                             <ul class="uk-nav  uk-navbar-dropdown-nav">
-                                <li><a href="/manage/">Manage</a></li>
-                                <li><a href="/signout">Logout</a></li>
+                                <li><a href="/manage/"> <b>Manage | 管理</b></a></li>
+                                <li><a href="/signout"> <b>Logout | 注销</b></a></li>
                             </ul>
                         </div>
                     </li>
                 {% else %}
-                <li><a href="/signin"> Login</a></li>
-                <li><a href="/register"> Register</a></li>
+                <li><a href="/signin"> <b>Login</b></a></li>
+                <li><a href="/register"> <b>Register</b></a></li>
                 {% endif %}
                 </ul>
             </div>
@@ -79,7 +84,7 @@
         </div>
         </div>
 
-        <nav class="uk-navbar-container uk-margin-medium uk-hidden@m" uk-navbar style="background-color: rgba(255, 255, 255, 0)">
+        <nav class="uk-navbar-container uk-margin-medium uk-hidden@m uk-navbar" style="background-color:rgba(255, 255, 255, 0);">
             <div class="uk-navbar-left">
                 <a class="uk-navbar-item uk-logo" href="/">
                     <span class="uk-icon uk-margin-small-right" uk-icon="pagekit" ratio="2"></span>
@@ -94,15 +99,15 @@
                 <div id="offcanvas-nav" uk-offcanvas="overlay: true; flip: true">
                 <div class="uk-offcanvas-bar uk-flex uk-flex-column">
                 <ul class="uk-nav uk-nav-default uk-margin-auto-vertical">
-                    <li><a href="/"><i class="uk-icon-home"></i> Article | 日志</a></li>
-                    <li><a href="#"><i class="uk-icon-book"></i> Tutorial | j教程</a></li>
-                    <li><a href="https://github.com/wy471x/personal_microblog"><i class="uk-icon-code"></i>Resource | 源码</a></li>
+                    <li><a href="/">  <b>Article | 日志</b></a></li>
+                    <li><a href="#">  <b>Tutorial | j教程</b></a></li>
+                    <li><a href="https://github.com/wy471x/personal_microblog">  <b>Resource | 源码</b></a></li>
                     {% if __user__  %}
-                    <li><a href="/manage/"> Manage | 管理</a></li>
-                    <li><a href="/signout"> Logout | 注销</a></li>
+                        <li><a href="/manage/"> <b>Manage | 管理</b></a></li>
+                        <li><a href="/signout"> <b>Logout | 注销</b></a></li>
                     {% else %}
-                    <li><a href="/signin"> Login | 登陆</a></li>
-                    <li><a href="/register"> Register | 注册</a></li>
+                        <li><a href="/signin"> <b>Login | 登陆</b></a></li>
+                        <li><a href="/register"> <b>Register | 注册</b></a></li>
                     {% endif %}
                 </ul>
                 </div>
@@ -113,19 +118,21 @@
         </nav>
 
         <div class="uk-container uk-container-medium">
+            <!-- jinja2 content -->
             {% block content %}
             {% endblock %}
         </div>
-
+        
+        <!-- icon and website information in buttom of page -->
         <div class="uk-margin-medium">
         <div class="uk-container uk-container-center uk-text-center">
             <p>
-                <a target="_blank" href="https://github.com/wy471x" class="uk-icon-button uk-margin-small-right" ratio="1.1" uk-icon="github"></a>
-                <a target="_blank" href="#" class="uk-icon-button uk-margin-small-right" ratio="1.1" uk-icon="twitter"></a>
-                <a target="_blank" href="#" class="uk-icon-button uk-margin-small-right" ratio="1.1" uk-icon="linkedin"></a>
-                <a target="_blank" href="#" class="uk-icon-button uk-margin-small-right" ratio="1.1" uk-icon="weibo"></a>
+                <a target="_blank" href="https://github.com/wy471x" class="uk-icon-button uk-margin-small-right" ratio="1.2" uk-icon="github"></a>
+                <a target="_blank" href="#" class="uk-icon-button uk-margin-small-right uk-icon-twitter" ratio="1.2" uk-icon="twitter"></a>
+                <a target="_blank" href="#" class="uk-icon-button uk-margin-small-right uk-icon-linkedin-square" ratio="1.2" uk-icon="linkedin"></a>
+                <a target="_blank" href="https://weibo.com/5680820576" class="uk-icon-button uk-margin-small-right" ratio="1.2" uk-icon="weibo"></a>
             </p>
-            <p class="uk-text-meta" style="line-height: 10px; padding: 10px 0; margin: 8px 0;">Powered by <a href="#">AwesomeDunkBlog</a>Copyright &copy; 2020.</p>
+            <p class="uk-text-meta" style="line-height: 10px; padding: 10px 0; margin: 8px 0;">Powered by <a href="#">AwesomeDunkBlog</a>. Copyright &copy; 2020.</p>
             <p class="uk-text-meta" style="line-height: 0px; padding: 0px 0; margin: 0px 0;"><a href="#" target="_blank">Dunk Wan</a>. All rights reserved.</p>
         </div>
         </div>
