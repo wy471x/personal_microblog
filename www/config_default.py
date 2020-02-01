@@ -12,6 +12,6 @@ configs = {
         'db': 'awesome'
     },
     'session':{
-        'secret': 'AwEsOmE'
+        'secret': 'awesession'
     }
 }
