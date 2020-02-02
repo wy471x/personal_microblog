@@ -104,7 +104,7 @@ async def response_factory(app, handler):
                 resp.content_type = 'application/json;charset=utf-8'
                 return resp
             else:
-                r['__user__'] = request.__user__
+                #r['__user__'] = request.__user__
                 resp = web.Response(body=app['__templating__'].\
                             get_template(template).render(**r).encode('utf-8'))
                 resp.content_type = 'text/html;charset=utf-8'
@@ -137,7 +137,7 @@ def datetime_filter(t):
 async def init(loop):
     await orm.create_pool(loop=loop, **configs['db'])
     app = web.Application(middlewares=[
-        logger_factory, auth_factory, response_factory
+        logger_factory, response_factory
     ])
     init_jinja2(app, filters=dict(datetime=datetime_filter))
     add_routes(app, 'handlers')
