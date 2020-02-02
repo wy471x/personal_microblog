@@ -13,11 +13,13 @@ import markdown2
 
 from coroweb import get, post
 
+from aiohttp import web
+
 from models import User, Comment, Blog, next_id
 
 from config import configs
 
-from apis import APIValueError, APIPermissionError, APIResourceNotFoundError
+from apis import APIError, APIValueError, APIPermissionError, APIResourceNotFoundError
 
 COOKIE_NAME = 'awesession'
 _COOKIE_KEY = configs.session.secret
@@ -26,15 +28,31 @@ def check_admin(request):
     if request.__user__ is None or not request.__user__.admin:
         raise APIPermissionError()
 
+def get_page_index(page_str):
+    p = 1
+    try:
+        p = int(page_str)
+    except ValueError as e:
+        pass
+    if p < 1:
+        p = 1
+    return p
+
 def user2cookie(user, max_age):
     '''
     Generate cookie str by user.
     '''
     #build cookie string by: id-expires-sha1
     expires = str(int(time.time() + max_age))
-    s = '%s-%s-%s-%s' % (users.id, users.passwd, expires, _COOKIE_KEY)
+    s = '%s-%s-%s-%s' % (user.id, user.passwd, expires, _COOKIE_KEY)
     L = [user.id, expires, hashlib.sha1(s.encode('utf-8')).hexdigest()]
     return '-'.join(L)
+
+def text2html(user, max_age):
+    lines = map(lambda s: '<p>%s</p>' % 
+        s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;'), 
+        filter(lambda s: s.strip() !=  '', text.split('\n')))
+    return ''.join(lines)
 
 async def cookie2user(cookie_str):
     '''
@@ -74,6 +92,19 @@ async def index(request):
     return {
         '__template__': 'blogs.html',
         'blogs': blogs
+    }
+
+@get('/blog/{id}'):
+async def get_blog(id):
+    blog = await Blog.find(id)
+    comments = Comment.findAll('blog_id=?', [id], orderBy='created_at desc')
+    for c in comments:
+        c.html_content = text2html(c.content)
+    blog.html_content = markdown2.markdown(blog.content)
+    return {
+        '__template__': 'blog.html'
+        'blog': blog,
+        'comments': comments
     }
 
 @get('/register')
@@ -140,9 +171,9 @@ async def api_register_user(*, email, name, passwd):
         raise APIValueError('email')
     if not passwd or not _RE_SHA1.match(passwd):
         raise APIValueError('passwd')
-    users = await User.findAll('emali=?', [email])
+    users = await User.findAll('email=?', [email])
     if len(users) > 0:
-        raise APIValueError('register:failed', 'email', 'Email is already in use.')
+        raise APIError('register:failed', 'email', 'Email is already in use.')
     uid = next_id()
     sha1_passwd = '%s:%s' % (uid, passwd)
     user = User(id=uid, name=name.strip(), email=email, 

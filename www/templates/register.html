@@ -60,41 +60,41 @@
 {% block content %}
     <div class="uk-width-2-3">
         <h1>欢迎注册！</h1>
-        <form id="vm" v-on="submit: submit" class="uk-form uk-form-stacked">
+        <form id="vm" v-on="submit: submit" class="uk-form-stacked">
             <div class="uk-alert uk-alert-danger uk-hidden"></div>
-            <div class="uk-form-row">
+            <div class="uk-margin">
                 <label class="uk-form-label">昵称:</label>
-                <div class="uk-form-controls"> 
+                <div class="uk-inline"> 
+                    <span class="uk-form-icon" uk-icon="icon: user"></span>
                     <input v-model="name" type="text" maxlength="50" 
-                    placeholder="昵称" class="uk-width-1-1">
+                    placeholder="昵称" class="uk-width-1-1 uk-input">
                 </div>
             </div>
-                <br>
-            <div class="uk-form-row">
+            <div class="uk-margin">
                 <label class="uk-form-label">邮箱:</label>
-                <div class="uk-form-controls">
+                <div class="uk-inline">
+                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: mail"></span>
                     <input v-model="email" type="text" maxlength="50" 
-                    placeholder="邮箱" class="uk-width-1-1">
+                    placeholder="邮箱" class="uk-width-1-1 uk-input">
                 </div>
             </div>
-                <br>
-            <div class="uk-form-row">
+            <div class="uk-margin">
                 <label class="uk-form-label">输入密码:</label>
-                <div class="uk-form-controls">
+                <div class="uk-inline">
+                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
                     <input v-model="password1" type="password" maxlength="50" 
-                    placeholder="输入密码" class="uk-width-1-1">
+                    placeholder="输入密码" class="uk-width-1-1 uk-input">
                 </div>
             </div>
-                <br>
-            <div class="uk-form-row">
+            <div class="uk-margin">
                 <label class="uk-form-label">确认密码:</label>
-                <div class="uk-form-controls">
+                <div class="uk-inline">
+                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
                     <input v-model="password2" type="password" maxlength="50" 
-                    placeholder="确认密码" class="uk-width-1-1">
+                    placeholder="确认密码" class="uk-width-1-1 uk-input">
                 </div>
             </div>
-            <br>
-            <div class="uk-form-row">
+            <div class="uk-margin">
                 <button type="submit" class="uk-button uk-button-primary">
                     <b>注册</b>
                 </button>
