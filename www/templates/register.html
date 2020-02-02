@@ -1,6 +1,6 @@
 {% extends '__base__.html'  %}
 
-{% block title %}注册|AwesomeDunkBlog{% endblock %}
+{% block title %}注册{% endblock %}
 
 {% block beforehead %}
 
@@ -63,33 +63,39 @@
         <form id="vm" v-on="submit: submit" class="uk-form uk-form-stacked">
             <div class="uk-alert uk-alert-danger uk-hidden"></div>
             <div class="uk-form-row">
+                <label class="uk-form-label">昵称:</label>
                 <div class="uk-form-controls"> 
-                    <i uk-icon="user"></i>
                     <input v-model="name" type="text" maxlength="50" 
                     placeholder="昵称" class="uk-width-1-1">
                 </div>
+            </div>
                 <br>
+            <div class="uk-form-row">
+                <label class="uk-form-label">邮箱:</label>
                 <div class="uk-form-controls">
-                    <i uk-icon="mail"></i>
                     <input v-model="email" type="text" maxlength="50" 
                     placeholder="邮箱" class="uk-width-1-1">
                 </div>
+            </div>
                 <br>
+            <div class="uk-form-row">
+                <label class="uk-form-label">输入密码:</label>
                 <div class="uk-form-controls">
-                    <i uk-icon="lock"></i>
                     <input v-model="password1" type="password" maxlength="50" 
                     placeholder="输入密码" class="uk-width-1-1">
                 </div>
+            </div>
                 <br>
+            <div class="uk-form-row">
+                <label class="uk-form-label">确认密码:</label>
                 <div class="uk-form-controls">
-                    <i uk-icon="lock"></i>
                     <input v-model="password2" type="password" maxlength="50" 
                     placeholder="确认密码" class="uk-width-1-1">
                 </div>
             </div>
             <br>
             <div class="uk-form-row">
-                <button type="submit" class="uk-button-primary">
+                <button type="submit" class="uk-button uk-button-primary">
                     <b>注册</b>
                 </button>
             </div>

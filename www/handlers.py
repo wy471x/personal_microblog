@@ -76,7 +76,7 @@ def register():
         '__template__': 'register.html'
     }
 
-@get('/sigin')
+@get('/signin')
 def signin():
     return {
         '__template__': 'signin.html'

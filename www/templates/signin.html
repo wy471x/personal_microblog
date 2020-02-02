@@ -1,85 +1,65 @@
-<!DOCTYPE html>
-<html class="uk-height-1-1">
-    <head>
-        <meta charset='utf-8' />
-        <title>登录|AwesomeDunkBlog</title>
-        <link rel="stylesheet" href="/static/css/uikit.min.css">
-        <link rel="stylesheet" href="/static/css/uikit-rtl.min.css">
-        <script src="/static/js/jquery.min.js"></script>
-        <script src="/static/js/sha1.min.js"></script>
-        <script src="/static/js/uikit.min.js"></script>
-        <script src="/static/js/vue.min.js"></script>
-        <script src="/static/js/uikit-icons.min.js"></script>
-        <script src="/static/js/awesome.js"></script>
+{% extends '__base__.html'  %}
 
+{% block title %}登录{% endblock %}
+
+{% block beforehead %}
         <script>
-        $(function() {
-        var vmAuth = new Vue({
-            el: '#vm',
-            data: {
-                email: '',
-                passwd: ''
-            },
-            methods: {
-                submit: function(event) {
-                    event.preventDefault();
-                    var 
-                        $form = $('#vm'),
-                        email = this.email.trim().tolowerCase(),
-                        data = {
-                            email: email,
-                            passwd: this.passwd==='' ? '': CryptoJS.SHA1(email + 
-                                    ':' + this.passwd).toString()
-                        };
-                    $form.postJSON('/api/authenticate', data, 
-                        function(err, result){
-                            if(! err){
-                                location.assign('/');
-                            }       
-                    });
+            $(function() {
+            var vmAuth = new Vue({
+                el: '#vm',
+                data: {
+                    email: '',
+                    passwd: ''
+                },
+                methods: {
+                    submit: function(event) {
+                        event.preventDefault();
+                        var 
+                            $form = $('#vm'),
+                            email = this.email.trim().tolowerCase(),
+                            data = {
+                                email: email,
+                                passwd: this.passwd==='' ? '': CryptoJS.SHA1(email + ':' + this.passwd).toString()
+                            };
+                        $form.postJSON('/api/authenticate', data, 
+                            function(err, result){
+                                if(! err){
+                                    location.assign('/');
+                                }       
+                        });
+                    }
                 }
-            }
-        });
-    });
-    </script>
+            });
+          });
+       </script>
+{% endblock %}
 
-    </head>
-
-    <body class="uk-height-1-1">
-        <div class="uk-vertical-align uk-text-center uk-height-1-1">
-            <div class="uk-vertical-align-middle" style="width: 320px">
-                <p>
-                    <a href="/" class="uk-icon-button">
-                    <i uk-icon="html5"></i></a>
-                    <a href="/">AwesomeDunkBlog</a>
-                </p>
-                <form id="vm" v-on="submit: submit" class="uk-panel uk-panel-box
-                        uk-form">
-                    <div class="uk-alert uk-alert-danger uk-hidden"></div>
-                    <div class="uk-form-row">
-                        <div class="uk-form-icon uk-width-1-1">
-                            <i uk-icon="mail"></i>
-                            <input v-model="email" name="email" type="text" 
-                                    placeholder="邮箱" maxlength="50" 
-                                    class="uk-width-1-1 uk-form-large">
+{% block content %}
+        <div uk-grid>
+            <div class="uk-width-1-1">
+                <h4>欢迎登录！</h4>
+                <form id="vm" class="uk-form-stacked">
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">邮箱:</label>
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: user"></span>
+                            <input v-model="email" name="email" type="text" placeholder="邮箱" maxlength="50" class="uk-input uk-form-width-medium">
                         </div>
                     </div>
-                    <div class="uk-form-row">
-                        <div class="uk-form-icon uk-width-1-1">
-                            <i uk-icon="lock"></i>
-                            <input v-model="passwd" name="passwd" type="passwd"
-                                    placeholder="密码" maxlength="50" 
-                                    class="uk-width-1-1 uk-form-large">
+                    <div class="uk-margin">
+                        <label class="uk-form-label">输入密码:</label>
+                        <div class="uk-inline">
+                            <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                            <input v-model="passwd" name="passwd" type="passwd" placeholder="输入密码" maxlength="50" class="uk-input uk-form-width-medium">
                         </div>
                     </div>
-                    <div class="uk-form-row">
-                        <button type="submit" class="uk-width-1-1 uk-button 
-                            uk-button-primary uk-button-large">
-                            <i uk-icon="sign-in"></i>登录
+                    <div class="uk-margin">
+                        <button type="submit" class="uk-button uk-button-primary">
+                            登录
                         </button>
                     </div>
                 </form>
             </div>
         </div>
-    </body>
-</html>
+
+{% endblock %}

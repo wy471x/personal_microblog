@@ -69,14 +69,13 @@
                         <a href="#0">{{ __user__.name }}</a>
                         <div class="uk-navbar-dropdown">
                             <ul class="uk-nav  uk-navbar-dropdown-nav">
-                                <li><a href="/manage/"> <b>Manage | 管理</b></a></li>
-                                <li><a href="/signout"> <b>Logout | 注销</b></a></li>
+                                <li><a href="/signout"><i uk-icon="sign-out"></i> <b>Logout | 注销</b></a></li>
                             </ul>
                         </div>
                     </li>
                 {% else %}
-                <li><a href="/signin"><i uk-icon="sign-in"></i>  <b>Login</b></a></li>
-                <li><a href="/register"><i uk-icon="sign-out"></i>  <b>Register</b></a></li>
+                <li><a href="/signin"><i uk-icon="sign-in"></i>  <b>Login | 登录</b></a></li>
+                <li><a href="/register"><i uk-icon="file-edit"></i>  <b>Register | 注册</b></a></li>
                 {% endif %}
                 </ul>
             </div>
@@ -107,7 +106,7 @@
                         <li><a href="/signout"> <b>Logout | 注销</b></a></li>
                     {% else %}
                         <li><a href="/signin"><i uk-icon="sign-in"></i> <b>Login | 登陆</b></a></li>
-                        <li><a href="/register"><i uk-icon="sign-out"></i> <b>Register | 注册</b></a></li>
+                        <li><a href="/register"><i uk-icon="file-edit"></i> <b>Register | 注册</b></a></li>
                     {% endif %}
                 </ul>
                 </div>
