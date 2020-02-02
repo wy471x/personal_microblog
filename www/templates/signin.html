@@ -14,15 +14,13 @@
                 methods: {
                     submit: function(event) {
                         event.preventDefault();
-                        var 
-                            $form = $('#vm'),
-                            email = this.email.trim().tolowerCase(),
-                            data = {
+                        var $form = $('#vm');
+                        var email = this.email.trim().tolowerCase();
+                        var data = {
                                 email: email,
-                                passwd: this.passwd==='' ? '': CryptoJS.SHA1(email + ':' + this.passwd).toString()
+                                passwd: this.passwd==='' ? '' : CryptoJS.SHA1(email + ':' + this.passwd).toString()
                             };
-                        $form.postJSON('/api/authenticate', data, 
-                            function(err, result){
+                        $form.postJSON('/api/authenticate', data, function(err, result){
                                 if(! err){
                                     location.assign('/');
                                 }       
@@ -30,12 +28,13 @@
                     }
                 }
             });
+			$('#vm').show();
           });
        </script>
 {% endblock %}
 
 {% block content %}
-        <div uk-grid>
+        <div class="uk-grid">
             <div class="uk-width-1-1">
                 <h4>欢迎登录！</h4>
                 <form id="vm" class="uk-form-stacked">
@@ -43,18 +42,20 @@
                         <label class="uk-form-label" for="form-stacked-text">邮箱:</label>
                         <div class="uk-inline">
                             <span class="uk-form-icon" uk-icon="icon: user"></span>
-                            <input v-model="email" name="email" type="text" placeholder="邮箱" maxlength="50" class="uk-input uk-form-width-medium">
+                            <input v-model="email" name="email" type="text" placeholder="Email" 
+                                maxlength="50" class="uk-input">
                         </div>
                     </div>
                     <div class="uk-margin">
                         <label class="uk-form-label">输入密码:</label>
                         <div class="uk-inline">
                             <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
-                            <input v-model="passwd" name="passwd" type="passwd" placeholder="输入密码" maxlength="50" class="uk-input uk-form-width-medium">
+                            <input v-model="passwd" name="passwd" type="passwd" placeholder="Password" 
+                                maxlength="50" class="uk-input">
                         </div>
                     </div>
                     <div class="uk-margin">
-                        <button type="submit" class="uk-button uk-button-primary">
+                        <button type="submit" class="uk-button uk-button-primary uk-button-small">
                             登录
                         </button>
                     </div>
