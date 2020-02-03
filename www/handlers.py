@@ -62,7 +62,7 @@ async def cookie2user(cookie_str):
         return None
     try:
         L = cookie_str.split('-')
-        if len(L) !=3:
+        if len(L) != 3:
             return None
         uid, expires, sha1 = L
         if int(expires) < time.time():
@@ -72,6 +72,8 @@ async def cookie2user(cookie_str):
             return None
         s = '%s-%s-%s-%s' % (uid, user.passwd, expires, _COOKIE_KEY)
         if sha1 != hashlib.sha1(s.encode('utf-8')).hexdigest():
+            logging.info(sha1)
+            logging.info(hashlib.sha1(s.encode('utf-8')).hexdigest())
             logging.info('invalid sha1')
             return None
         user.passwd = '******'
@@ -94,7 +96,7 @@ async def index(request):
         'blogs': blogs
     }
 
-@get('/blog/{id}'):
+@get('/blog/{id}')
 async def get_blog(id):
     blog = await Blog.find(id)
     comments = Comment.findAll('blog_id=?', [id], orderBy='created_at desc')
@@ -102,7 +104,7 @@ async def get_blog(id):
         c.html_content = text2html(c.content)
     blog.html_content = markdown2.markdown(blog.content)
     return {
-        '__template__': 'blog.html'
+        '__template__': 'blog.html',
         'blog': blog,
         'comments': comments
     }
@@ -189,6 +191,11 @@ async def api_register_user(*, email, name, passwd):
     r.content_type = 'application/json'
     r.body = json.dumps(user, ensure_ascii=False).encode('utf-8')
     return r
+
+@get('/api/blogs/{id}')
+async def api_get_blog(*, id):
+    blog = await Blog.find(id)
+    return blog
 
 @post('/api/blogs')
 async def api_create_blog(request, *, name, summary, content):

@@ -66,9 +66,10 @@
                 <ul class="uk-navbar-nav">
                 {% if __user__  %}
                     <li>
-                        <a href="#0">{{ __user__.name }}</a>
-                        <div class="uk-navbar-dropdown">
-                            <ul class="uk-nav  uk-navbar-dropdown-nav">
+                        <span><a href="#0" style="color: inherit;"><i uk-icon="icon: user"></i> {{ __user__.name }}</a></span>
+                        <div uk-dropdown>
+                            <ul class="uk-nav  uk-dropdown-nav">
+                                <li><a href="/manage/"><i uk-icon="settings"></i> <b>Manage | 管理</b></a></li>
                                 <li><a href="/signout"><i uk-icon="sign-out"></i> <b>Logout | 注销</b></a></li>
                             </ul>
                         </div>
@@ -105,7 +106,7 @@
                         <li><a href="/manage/"> <b>Manage | 管理</b></a></li>
                         <li><a href="/signout"> <b>Logout | 注销</b></a></li>
                     {% else %}
-                        <li><a href="/signin"><i uk-icon="sign-in"></i> <b>Login | 登陆</b></a></li>
+                        <li><a href="/signin"><i uk-icon="sign-in"></i> <b>Login | 登录</b></a></li>
                         <li><a href="/register"><i uk-icon="file-edit"></i> <b>Register | 注册</b></a></li>
                     {% endif %}
                 </ul>

@@ -1,18 +1,16 @@
 <!-- 继承父模板 '__base__.html' -->
 {% extends '__base__.html' %}
-<!--jinja2 title 块内容替换-->
+<!--jinja2 title -->
 {% block title %}编辑日志{% endblock %}
-<!--jinja2 beforehead 块内容替换-->
+<!--jinja2 beforehead -->
 {% block beforehead %}
-<!--script中构建vue,向后端API提交日志相关数据,包括创建新日志和修改旧日志-->
+
 <script>
 
-var
-    ID = '{{ id }}',
-    action = '{{ action }}';
+var ID = '{{ id }}', action = '{{ action }}', vm;
 
 function initVM(blog) {
-    var vm = new Vue({
+        vm = new Vue({
         el: '#vm',
         data: blog,
         methods: {
@@ -58,6 +56,7 @@ $(function () {
 {% endblock %}
 
 {% block content %}
+
     <div class="uk-width-1-1 uk-margin-bottom">
         <ul class="uk-breadcrumb">
             <li><a href="/manage/comments">评论</a></li>
