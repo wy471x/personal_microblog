@@ -45,10 +45,11 @@
     
     <!-- body for navigation page -->
     <body>
-        <div class="uk-margin uk-visible@m" style="background-color: #eee; border-bottom: 1px solid #ccc; height: 80px;">
+        <div class="uk-margin uk-visible@m" style="background-color: #eee; border-bottom: 1px solid #ccc;">
+        <div class="uk-container uk-container-medium">
         <!-- UI -->
-        <nav class="uk-navbar-container" uk-navbar style="height: 80px;">
-            <div class="uk-navbar-left">
+        <nav class="uk-navbar uk-navbar-attached uk-margin-bottom" style="background-color:rgba(255, 255, 255, 0);">
+            <div class="uk-navbar-left uk-margin-medium-top uk-margin-medium-bottom">
                 <a class="uk-navbar-item uk-logo uk-margin-left" href="/">
                     <span class="uk-icon uk-margin-small-right" uk-icon="pagekit" ratio="2"></span>
                      D.W
@@ -59,7 +60,7 @@
                     <li><a href="https://github.com/wy471x/personal_microblog"> <b>Resource | 源码</b></a></li>
                 </ul>
             </div>
-            <div class="uk-navbar-right">
+            <div class="uk-navbar-right uk-margin-medium-top uk-margin-medium-bottom">
                 <ul class="uk-navbar-nav">
                 {% if __user__  %}
                     <li>
@@ -79,13 +80,13 @@
             </div>
         </nav>
         </div>
+        </div>
 
-        <div class="uk-hidden@m" style="background-color: #eee; border-bottom: 1px solid #ccc;">
-        <nav class="uk-navbar-container" uk-navbar>
+        <nav class="uk-navbar-container uk-margin-medium uk-hidden@m uk-navbar" style="background-color:rgba(255, 255, 255, 0);">
             <div class="uk-navbar-left">
                 <a class="uk-navbar-item uk-logo" href="/">
                     <span class="uk-icon uk-margin-small-right" uk-icon="pagekit" ratio="2"></span>
-                    D.W
+                    Dunk.Wan
                 </a>
             </div>
             <div class="uk-navbar-right">
@@ -113,7 +114,6 @@
                 </ul>
             </div>
         </nav>
-        </div>
 
         <div class="uk-container uk-container-medium">
             <div class="uk-grid">
