@@ -228,7 +228,7 @@ async def api_blogs(*, page='1'):
         return dict(page=p, blogs=())
     blogs = await Blog.findAll(orderBy='created_at desc', 
                                limit=(p.offset, p.limit))
-    logging.info(blogs);
+    #logging.info(blogs);
     return dict(page=p, blogs=blogs)
 
 '''
