@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <!--process paging navigation bar-->
-{% macro pagination(page) %}
+{% macro pagination(url, page) %}
     <ul class="uk-pagination uk-flex-center uk-margin-medium-top uk-margin-large-bottom">
         {% if page.has_previous %}
             <li><a href="?page= {{ page.page_index - 1 }}"><span uk-pagination-previous></span></a></li>
@@ -45,11 +45,10 @@
     
     <!-- body for navigation page -->
     <body>
-        <div class="uk-margin uk-visible@m" style="background-color: #eee; border-bottom: 1px solid #ccc;">
-        <div class="uk-container uk-container-medium">
+        <div class="uk-margin uk-visible@m" style="background-color: #eee; border-bottom: 1px solid #ccc; height: 80px;">
         <!-- UI -->
-        <nav class="uk-navbar uk-navbar-attached uk-margin-bottom" style="background-color:rgba(255, 255, 255, 0);">
-            <div class="uk-navbar-left uk-margin-medium-top uk-margin-medium-bottom">
+        <nav class="uk-navbar-container" uk-navbar style="height: 80px;">
+            <div class="uk-navbar-left">
                 <a class="uk-navbar-item uk-logo uk-margin-left" href="/">
                     <span class="uk-icon uk-margin-small-right" uk-icon="pagekit" ratio="2"></span>
                      D.W
@@ -60,7 +59,7 @@
                     <li><a href="https://github.com/wy471x/personal_microblog"> <b>Resource | 源码</b></a></li>
                 </ul>
             </div>
-            <div class="uk-navbar-right uk-margin-medium-top uk-margin-medium-bottom">
+            <div class="uk-navbar-right uk-margin-right">
                 <ul class="uk-navbar-nav">
                 {% if __user__  %}
                     <li>
@@ -80,13 +79,13 @@
             </div>
         </nav>
         </div>
-        </div>
 
-        <nav class="uk-navbar-container uk-margin-medium uk-hidden@m uk-navbar" style="background-color:rgba(255, 255, 255, 0);">
+        <div class="uk-hidden@m" style="background-color: #eee; border-bottom: 1px solid #ccc;">
+        <nav class="uk-navbar-container" uk-navbar>
             <div class="uk-navbar-left">
                 <a class="uk-navbar-item uk-logo" href="/">
                     <span class="uk-icon uk-margin-small-right" uk-icon="pagekit" ratio="2"></span>
-                    Dunk.Wan
+                    D.W
                 </a>
             </div>
             <div class="uk-navbar-right">
@@ -114,8 +113,9 @@
                 </ul>
             </div>
         </nav>
+        </div>
 
-        <div class="uk-container uk-container-medium">
+        <div class="uk-container uk-container-center">
             <div class="uk-grid">
             <!-- jinja2 content -->
             {% block content %}
@@ -124,9 +124,10 @@
         </div>
         
         <!-- icon and website information in buttom of page -->
-        <div class="uk-margin-large-top" style="background-color: #eee; border-top: 1px solid #ccc;">
+        <div class="uk-margin-top" style="position: absolute; background-color: #eee; border-top: 1px solid #ccc; 
+           bottom: 0; left: 0; right: 0;">
         <div class="uk-container uk-container-center uk-text-center">
-        <div class="uk-margin-top uk-margin-bottom">
+        <div class="uk-panel uk-margin-top uk-margin-bottom">
             <p>
                 <a target="_blank" href="https://github.com/wy471x" class="uk-icon-button uk-margin-small-right" ratio="1" uk-icon="github"></a>
                 <a target="_blank" href="#" class="uk-icon-button uk-margin-small-right uk-icon-twitter" ratio="1" uk-icon="twitter"></a>

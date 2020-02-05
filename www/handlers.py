@@ -98,7 +98,7 @@ async def index(request):
 '''
 
 @get('/')
-async index(*, page='1'):
+async def index(*, page='1'):
     page_index = get_page_index(page)
     num = await Blog.findNumber('count(id)')
     page = Page(num)
@@ -174,7 +174,7 @@ async def signout(request):
 
 @get('/manage/')
 def manage():
-    return ‘redirect:/manage/comments’
+    return 'redirect:/manage/comments'
 
 @get('/manage/comments')
 def manage_comments(*, page='1'):
@@ -220,7 +220,7 @@ async def api_comments(*, page='1'):
     p = Page(num, page_index)
     if num == 0:
         return dict(page=p, comments=())
-    comments = await Comment.findAll(orderBy='created_at dsc', 
+    comments = await Comment.findAll(orderBy='created_at desc', 
                                      limit=(p.offset, p.limit))
     return dict(page=p, comments=comments)
 
@@ -228,7 +228,7 @@ async def api_comments(*, page='1'):
 async def api_create_comment(id, request, *, content):
     user = request.__user__
     if user is None:
-        raise APIPermissionError(‘Please signin first.’)
+        raise APIPermissionError('Please signin first.')
     if not content or not content.strip():
         raise APIValueError('content')
     blog = await Blog.find(id)
@@ -240,7 +240,7 @@ async def api_create_comment(id, request, *, content):
     return comment
 
 @post('/api/comments/{id}/delete')
-def api_delete(id, request):
+async def api_delete_comments(id, request):
     check_admin(request)
     c = await Comment.find(id)
     if c is None:
@@ -249,7 +249,7 @@ def api_delete(id, request):
     return dict(id=id)
 
 @get('/api/users')
-def api_get_users(*, page='1'):
+async def api_get_users(*, page='1'):
     page_index = get_page_index(page)
     num = await User.findNumber('count(id)')
     p = Page(num, page_index)
@@ -324,7 +324,7 @@ async def api_blogs(*, page='1'):
     return dict(page=p, blogs=blogs)
     
 @post('/api/blogs/{id}')
-async api_update_blog(id, request, *, name, summary, content):
+async def api_update_blog(id, request, *, name, summary, content):
     chech_admin(request)
     blog = await Blog.find(id)
     if not name or not name.strip():
@@ -340,7 +340,7 @@ async api_update_blog(id, request, *, name, summary, content):
     return blog
 
 @post('/api/blogs/{id}/delete')
-def api_delete_blog(request, *, id):
+async def api_delete_blog(request, *, id):
     check_admin(request)
     blog = await Blog.find(id)
     await blog.remove()

@@ -9,8 +9,7 @@
 
 {% block content %}
     <!-- screen size greater than medium  -->
-    <div class="uk-grid uk-visible@m">
-    <div class="uk-width-3-4">
+    <div class="uk-width-3-4 uk-visible@m">
         {% for blog in blogs %}
             <article class="uk-article">
                 <h2><a href="/blog/{{ blog.id }}">{{ blog.name }}</a></h2>
@@ -20,6 +19,7 @@
             </article>
             <hr class="uk-article-divider">
         {% endfor %}
+        {{ pagination('/?page=', page) }}
     </div>
     
     <div class="uk-width-1-4 uk-visible@m">
@@ -37,7 +37,6 @@
             <button type=submit name=btnSearch class="uk-button uk-button-default" >Search</button>
         </form>
         -->
-        <div class="uk-width-medium-4">
         <div class="uk-panel uk-panel-header">
             <h4 class="uk-list uk-list-line">友情链接</h4>
             <ul class="uk-list uk-list-line">
@@ -47,9 +46,7 @@
                 <li><i uk-icon="link"></i><a target="_blank" href="#">Git教程</a></li>
             </ul>
         </div>
-        </div>
-   </div>
-   </div>
+    </div>
 
     <!-- small size screen -->
     <div class="uk-hidden@m">

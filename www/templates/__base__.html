@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <!--process paging navigation bar-->
-{% macro pagination(page) %}
+{% macro pagination(url, page) %}
     <ul class="uk-pagination uk-flex-center uk-margin-medium-top uk-margin-large-bottom">
         {% if page.has_previous %}
             <li><a href="?page= {{ page.page_index - 1 }}"><span uk-pagination-previous></span></a></li>
@@ -45,9 +45,10 @@
     
     <!-- body for navigation page -->
     <body>
-        <div class="uk-margin uk-visible@m" style="background-color: #eee; border-bottom: 1px solid #ccc; height: 80px;">
         <!-- UI -->
-        <nav class="uk-navbar-container" uk-navbar style="height: 80px;">
+        <div style="position: relative; width: 100%; 
+            min-height: 100%; padding-bottom: 100px; box-sizing: border-box;">
+        <nav class="uk-navbar uk-navattached uk-margin-bottom">
             <div class="uk-navbar-left">
                 <a class="uk-navbar-item uk-logo uk-margin-left" href="/">
                     <span class="uk-icon uk-margin-small-right" uk-icon="pagekit" ratio="2"></span>
@@ -59,7 +60,7 @@
                     <li><a href="https://github.com/wy471x/personal_microblog"> <b>Resource | 源码</b></a></li>
                 </ul>
             </div>
-            <div class="uk-navbar-right">
+            <div class="uk-navbar-right uk-margin-right">
                 <ul class="uk-navbar-nav">
                 {% if __user__  %}
                     <li>
@@ -115,7 +116,7 @@
         </nav>
         </div>
 
-        <div class="uk-container uk-container-medium">
+        <div class="uk-container uk-container-center">
             <div class="uk-grid">
             <!-- jinja2 content -->
             {% block content %}
@@ -124,9 +125,10 @@
         </div>
         
         <!-- icon and website information in buttom of page -->
-        <div class="uk-margin-large-top" style="background-color: #eee; border-top: 1px solid #ccc;">
+        <div style="background-color: #eee; 
+                border-top: 1px solid #ccc; width: 100%; height: 100px; 
+                position: absolute;">
         <div class="uk-container uk-container-center uk-text-center">
-        <div class="uk-margin-top uk-margin-bottom">
             <p>
                 <a target="_blank" href="https://github.com/wy471x" class="uk-icon-button uk-margin-small-right" ratio="1" uk-icon="github"></a>
                 <a target="_blank" href="#" class="uk-icon-button uk-margin-small-right uk-icon-twitter" ratio="1" uk-icon="twitter"></a>
@@ -137,6 +139,6 @@
             <p class="uk-text-meta" style="line-height: 0px; padding: 0px 0; margin: 0px 0;"><a href="#" target="_blank">Dunk Wan</a>. All rights reserved.</p>
         </div>
         </div>
-        </div>
+      </div>
     </body>
 </html>
