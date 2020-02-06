@@ -256,7 +256,7 @@ async def api_get_users(*, page='1'):
     if num == 0:
         return dict(page=p, users=())
     users = await User.findAll(orderBy='created_at desc', 
-                               limit=(p.offset, p,limit))
+                               limit=(p.offset, p.limit))
     for u in users:
         u.passwd = '******'
     return dict(page=p, users=users)

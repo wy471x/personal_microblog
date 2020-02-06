@@ -45,6 +45,8 @@
     
     <!-- body for navigation page -->
     <body>
+        <div class="container">
+        <header>
         <div class="uk-margin uk-visible@m" style="background-color: #eee; border-bottom: 1px solid #ccc; height: 80px;">
         <!-- UI -->
         <nav class="uk-navbar-container" uk-navbar style="height: 80px;">
@@ -79,7 +81,9 @@
             </div>
         </nav>
         </div>
+        </header>
 
+        <header>
         <div class="uk-hidden@m" style="background-color: #eee; border-bottom: 1px solid #ccc;">
         <nav class="uk-navbar-container" uk-navbar>
             <div class="uk-navbar-left">
@@ -114,7 +118,9 @@
             </div>
         </nav>
         </div>
+        </header>
 
+        <section class="min">
         <div class="uk-container uk-container-center">
             <div class="uk-grid">
             <!-- jinja2 content -->
@@ -122,8 +128,10 @@
             {% endblock %}
             </div>
         </div>
+        </section>
         
         <!-- icon and website information in buttom of page -->
+        <footer>
         <div class="uk-margin-top" style="position: absolute; background-color: #eee; border-top: 1px solid #ccc; 
            bottom: 0; left: 0; right: 0;">
         <div class="uk-container uk-container-center uk-text-center">
@@ -139,5 +147,7 @@
         </div>
         </div>
         </div>
+    </div>
+    </footer>
     </body>
 </html>
