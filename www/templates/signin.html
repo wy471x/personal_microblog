@@ -1,65 +1,83 @@
-{% extends '__base__.html'  %}
-
-{% block title %}登录{% endblock %}
-
-{% block beforehead %}
-        <script>
-            $(function() {
-            var vmAuth = new Vue({
-                el: '#vm',
-                data: {
-                    email: '',
-                    passwd: ''
-                },
-                methods: {
-                    submit: function(event) {
-                        event.preventDefault();
-                        var $form = $('#vm');
-                        var email = this.email.trim().toLowerCase();
-                        var data = {
-                                email: email,
-                                passwd: this.passwd==='' ? '' : CryptoJS.SHA1(email + ':' + this.passwd).toString()
-                            };
-                        $form.postJSON('/api/authenticate', data, function(err, result){
-                                if(! err){
-                                    location.assign('/');
-                                }       
-                        });
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>登录 | D.W</title>
+    <link rel="stylesheet" href="/static/css/uikit.min.css">
+    <link rel="stylesheet" href="/static/css/uikit-rtl.min.css">
+    <link rel="stylesheet" href="/static/css/signin.css" />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/sha1.min.js"></script>
+    <script src="/static/js/uikit.min.js"></script>
+    <script src="/static/js/uikit-icons.min.js"></script>
+    <script src="/static/js/sticky.min.js"></script>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/js/awesome.js"></script>
+    <script>
+$(function() {
+    var vmAuth = new Vue({
+        el: '#vm',
+        data: {
+            email: '',
+            passwd: ''
+        },
+        methods: {
+            submit: function(event) {
+                event.preventDefault();
+                var
+                    $form = $('#vm'),
+                    email = this.email.trim().toLowerCase(),
+                    data = {
+                        email: email,
+                        passwd: this.passwd==='' ? '' : 
+                            CryptoJS.SHA1(email + ':' + this.passwd).toString()
+                    };
+                $form.postJSON('/api/authenticate', data, function(err, result) {
+                    if (! err) {
+                        location.assign('/');
                     }
-                }
-            });
-			$('#vm').show();
-          });
-       </script>
-{% endblock %}
-
-{% block content %}
-
-   <div class="uk-width-1-1 uk-margin-medium">
-       <h4>欢迎登录！</h4>
-       <form id="vm" v-on="submit: submit" class="uk-form-stacked">
-           <div class="uk-margin">
-               <label class="uk-form-label" for="form-stacked-text">邮箱:</label>
-               <div class="uk-inline">
-                   <span class="uk-form-icon" uk-icon="icon: user"></span>
-                   <input v-model="email" name="email" type="text" placeholder="Email" 
-                       maxlength="50" class="uk-input">
-               </div>
-           </div>
-           <div class="uk-margin">
-               <label class="uk-form-label">输入密码:</label>
-               <div class="uk-inline">
-                   <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
-                   <input v-model="passwd" name="passwd" type="password" placeholder="Password" 
-                       maxlength="50" class="uk-input">
-               </div>
-           </div>
-           <div class="uk-margin">
-               <button type="submit" class="uk-button uk-button-primary uk-button-small">
-                   登录
-               </button>
-           </div>
-       </form>
-   </div>
-
-{% endblock %}
+                });
+            }
+        }
+    });
+});
+    </script>
+</head>
+<body>
+    <div class="uk-margin-large-top" style="text-align: center;">
+        <p class="uk-text-large">欢迎登录！</p>    
+    </div>
+    <div class="signin">
+            <p>
+                <a href="/" class="uk-icon-button">
+                    <i uk-icon="pagekit"></i>
+                </a> 
+                <a href="/" class="uk-text-large"> D.W</a>
+            </p>
+            <form id="vm" v-on="submit: submit">
+                <div class="uk-margin">
+                <div class="uk-inline">
+                        <span class="uk-form-icon" uk-icon="mail"></span>
+                        <input v-model="email" name="email" type="text" 
+                        placeholder="Email" maxlength="50" class="uk-input">
+                </div>
+                </div>
+                <div class="uk-margin">
+                <div class="uk-inline">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="lock"></span>
+                        <input v-model="passwd" name="passwd" type="password" 
+                        placeholder="Password" maxlength="50" class="uk-input">
+                </div>
+                </div>
+                <div class="uk-margin">
+                <div class="uk-inline">
+                    <button type="submit" class="uk-width-1-1 uk-button uk-button-primary">
+                        <i uk-icon="sign-in"></i> 
+                        登录
+                    </button>
+                </div>
+                </div>
+            </form>
+    </div>
+</body>
+</html>
