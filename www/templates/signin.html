@@ -35,6 +35,8 @@ $(function() {
                 $form.postJSON('/api/authenticate', data, function(err, result) {
                     if (! err) {
                         location.assign('/');
+                    }else{
+                        alert('邮箱或密码错误！'); 
                     }
                 });
             }
